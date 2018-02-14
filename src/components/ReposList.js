@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import RepoListItem from './RepoListItem';
 
 const MAX_REPOS_PER_PAGE = 100;
 
@@ -30,6 +31,10 @@ class ReposList extends Component {
 		this.setState({ loading: bool });
 	}
 
+	_handleItemClick(repo) {
+		console.log('CLICKED ON', repo.name);
+	}
+
 	render() {
 		const { loading, repos } = this.state;
 
@@ -38,7 +43,9 @@ class ReposList extends Component {
 
 		return (
 			<div>
-				{repos.map((repo, index) => (<p key={index}>{index + 1}.{' '}{repo.name}</p>))}
+				{repos.map((repo, index) =>
+					(<RepoListItem onClick={this._handleItemClick} key={index} repo={repo} />)
+				)}
 			</div>
 		);
 	}
