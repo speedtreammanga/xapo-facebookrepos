@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import RepoListItem from './RepoListItem';
 import styled from 'styled-components';
 
+import RepoListItem from '../components/RepoListItem';
 import GithubProvider from '../providers/github.provider';
 
-class ReposList extends Component {
+class VisibleReposList extends Component {
 	state = {
 		repos: [],
 		loading: false
@@ -52,4 +52,4 @@ const LoadingP = styled.p`
 	padding: 0;
 `;
 
-export default ReposList;
+export default VisibleReposList;

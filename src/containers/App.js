@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Layout } from 'antd';
 
 import SideBar from './SideBar';
-import SelectedRepo from './SelectedRepo/SelectedRepo';
+import SelectedRepo from '../components/SelectedRepo/SelectedRepo';
 
 class App extends Component {
   render() {

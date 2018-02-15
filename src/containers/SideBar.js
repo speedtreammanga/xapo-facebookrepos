@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
 import { Layout } from 'antd';
-import ReposList from './ReposList';
-import SearchBar from './SearchBar';
+
+import VisibleReposList from '../containers/VisibleReposList';
+import SearchBar from '../components/SearchBar';
 const { Sider } = Layout;
 
 class SideBar extends Component {
+
+	_handleSearch = (text) => {
+		// ...
+	}
+
 	render() {
 		return (
 			<Sider width={280} style={styles.sider}>
 				<Layout style={styles.searchBar}>
-						<SearchBar/>
+						<SearchBar onSearch={this._handleSearch}/>
 				</Layout>
 				<Layout style={styles.reposListLayout}>
-					<ReposList />
+					<VisibleReposList />
 				</Layout>
 			</Sider>
 		);
