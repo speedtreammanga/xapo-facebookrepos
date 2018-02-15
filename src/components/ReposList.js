@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import RepoListItem from './RepoListItem';
+import styled from 'styled-components';
 
 const MAX_REPOS_PER_PAGE = 100;
 
@@ -39,7 +40,7 @@ class ReposList extends Component {
 		const { loading, repos } = this.state;
 
 		if (loading)
-			return <p>Loading...</p>
+			return <LoadingP>Loading...</LoadingP>
 
 		return (
 			<div>
@@ -50,5 +51,12 @@ class ReposList extends Component {
 		);
 	}
 }
+
+const LoadingP = styled.p`
+	background-color: #f9f9f9;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+`;
 
 export default ReposList;

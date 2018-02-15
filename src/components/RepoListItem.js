@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Layout } from 'antd';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -33,7 +32,7 @@ const LayoutStyled = styled.div`
 	padding: 8px 10px;
 	cursor: pointer;
 	font-size: 16px;
-	background-color: white;
+	background-color: #f9f9f9;
 	transition: 0.15s linear;
 	&:hover {
 		background-color: #ddedf9;

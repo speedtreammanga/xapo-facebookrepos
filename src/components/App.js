@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import '../style/App.css';
 import { Layout } from 'antd';
 
-import ReposList from './ReposList';
 import SideBar from './SideBar';
-
-const { Content, Sider } = Layout;
+import SelectedRepo from './SelectedRepo/SelectedRepo';
 
 class App extends Component {
   render() {
@@ -13,25 +10,13 @@ class App extends Component {
 			<Layout>
 				<Layout>
 					<SideBar />
-					<Layout style={styles.contentLayout}>
-						<Content style={styles.content}>
-							<h1>The Content</h1>
-						</Content>
+					<Layout style={{marginLeft: 280}}>
+						<SelectedRepo />
 					</Layout>
 				</Layout>
 			</Layout>
     );
   }
-}
-
-const styles = {
-	contentLayout: {
-		padding: '0 24px 24px',
-		marginLeft: 280,
-	},
-	content: {
-		margin: '16px 0',
-	},
 }
 
 export default App;
