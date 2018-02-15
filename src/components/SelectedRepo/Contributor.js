@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Avatar, Popover } from 'antd';
+import { Avatar, Popover } from 'antd';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
