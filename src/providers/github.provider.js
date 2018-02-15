@@ -1,19 +1,15 @@
 const MAX_REPOS_PER_PAGE = 100;
 
+/**
+ * Provider querying against GitHub's API.
+ */
 class GithubProvider {
 	repos = [];
-
-	details = {
-		method: 'GET',
-		headers: {
-			'Authorization': 'token dc701b1b1e8b5b14b0c7422bfeb840ffe386e965'
-		}
-	}
 
 	/**
 	 * Fetches basic information about a GitHub account.
 	 * @param {string} type The type of the GitHub account, `users` || `orgs`.
-	 * @param {string} name The name of the account, e.g `facebook`.
+	 * @param {string} name The name of the account, e.g `facebook`, `speedtreammanga`, etc.
 	 */
 	fetchGithubAccount = async ({type, name}) => {
 		let repo;

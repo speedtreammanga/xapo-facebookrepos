@@ -5,8 +5,11 @@ import PropTypes from 'prop-types';
 
 import RepoTag from './RepoTag';
 
+/**
+ * Component displaying the Avatar and a Popover
+ * with informations about a given Contributor.
+*/
 class Contributor extends Component {
-
 	render() {
 		const {
 			avatar_url,
@@ -50,6 +53,9 @@ const Login = styled.h2`
 	margin: 0;
 `;
 
+/**
+ * PROPTYPES
+ */
 Contributor.propTypes = {
 	avatar_url: PropTypes.string.isRequired,
 	html_url: PropTypes.string.isRequired,

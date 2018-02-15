@@ -1,5 +1,8 @@
 import { PICK_A_REPO, FILTER_REPOS } from '../actions/actionTypes';
 
+/**
+ * Reducer for the selected repository feature.
+*/
 const defaultSelectedRepoReducerState = {
 	type: PICK_A_REPO,
 	id: null,
@@ -19,6 +22,9 @@ export function selectedRepoReducer(state = defaultSelectedRepoReducerState, act
 	}
 }
 
+/**
+ * Reducer for the search filter feature.
+*/
 const defaultFilterRepoReducerState = {
 	type: FILTER_REPOS,
 	filter: '',

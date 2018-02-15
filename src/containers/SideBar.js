@@ -8,6 +8,12 @@ import { filterRepos } from '../actions/actions';
 
 const { Sider } = Layout;
 
+/**
+ * Container component displaying `VisibleReposList` and `SearchBar`.
+ * Responsible for the `filterReposReducer` reducer.
+ *
+ * Dispatches a new `filter` on `SearchBar` change.
+*/
 class SideBar extends Component {
 	render() {
 		return (

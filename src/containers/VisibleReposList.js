@@ -6,6 +6,12 @@ import RepoListItem from '../components/RepoListItem';
 import GithubProvider from '../providers/github.provider';
 import { pickARepo } from '../actions/actions';
 
+/**
+ * Container component displaying available repositories.
+ * Responsible for the `selectedRepoReducer` reducer.
+ *
+ * Sorts the list of repositories by their `watchers_count` DESC.
+*/
 class VisibleReposList extends Component {
 	state = {
 		repos: [],
@@ -14,11 +20,14 @@ class VisibleReposList extends Component {
 
 	async componentDidMount() {
 		this._isLoading(true);
-		const res = await GithubProvider.fetchGithubAccount({
-			type: 'orgs',
-			name: 'facebook'
-		});
-		const repos = await GithubProvider.fetchRepos(res.repos_url, res.public_repos);
+
+		const res = await GithubProvider
+			.fetchGithubAccount({ type: 'orgs', name: 'facebook' });
+
+		const repos = (await GithubProvider
+			.fetchRepos(res.repos_url, res.public_repos))
+			.sort((a, b) => b.watchers_count - a.watchers_count);
+
 		this.setState({ repos });
 		this._isLoading(false);
 	}

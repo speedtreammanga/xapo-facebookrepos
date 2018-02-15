@@ -7,5 +7,6 @@ const reducer = combineReducers(
 		filter: filterReposReducer
 	}
 );
+// Creating the store...
 const store = createStore(reducer);
 export default store;

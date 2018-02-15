@@ -7,8 +7,10 @@ import GithubProvider from '../../providers/github.provider';
 import RepoTag from './RepoTag';
 import Contributor from './Contributor';
 
-import { aRepo } from './repo.js';
-
+/**
+ * Component displaying a reposority's detail information
+ * based on a `repo id`.
+*/
 class repo extends Component {
 	state = {
 		repo: null,
@@ -17,10 +19,25 @@ class repo extends Component {
 		contributors_loading: false,
 	}
 
+	/**
+	 * Fetches a repo by its `repo id`, re-initializes
+	 * the state information & fetches a list of
+	 * contributors.
+	 * @param {*} props Component's props.
+	 */
 	async componentWillReceiveProps(props) {
 		if (props.repoId) {
+			// fetching repo...
 			const repo = GithubProvider.getRepoByRepoId(props.repoId);
-			this._loadMoreContributors(repo);
+			await this.setState({
+				contributors: [],
+				contributors_page: 1,
+				noContributorsLeft: false,
+				contributors_loading: true,
+				repo,
+			});
+			// fetching contributors...
+			this._loadMoreContributors();
 		}
 	}
 
@@ -93,19 +110,33 @@ class repo extends Component {
 		);
 	}
 
-	_loadMoreContributors = async (repo) => {
-		if (!this.state.noContributorsLeft) {
-			await this.setState({ contributors_loading: true });
-			const contributors =
-				await GithubProvider.fetchRepoContributorsByRepoId(repo.id, this.state.contributors_page);
-			await this.setState((prev) => {
-				prev.repo = {...repo};
-				++prev.contributors_page;
-				prev.contributors.push(...contributors);
-				prev.contributors_loading = false;
-				prev.noContributorsLeft = contributors.length ? false : true;
-				return prev;
-			});
+	/**
+	 * Fetches current repo's contributors
+	 * by `repo id` & `page count id`.
+	 */
+	_loadMoreContributors = async () => {
+		try {
+			if (!this.state.noContributorsLeft) {
+				const contributors = await GithubProvider
+					.fetchRepoContributorsByRepoId(
+						this.state.repo.id,
+						this.state.contributors_page
+					);
+				await this.setState((prev) => ({
+					contributors_page: prev.contributors_page + 1,
+					contributors: [...prev.contributors, ...contributors],
+					contributors_loading: false,
+					// GitHub loads 30 contributors per page, therefore,
+					// if the nb of contributors we got % 30 !== 0, it means
+					// there are no more contributors to load => `noContributorsLeft`: true
+					noContributorsLeft:
+						contributors.length !== 0 && contributors.length % 30 === 0
+						? false
+						: true
+				}));
+			}
+		} catch (err) {
+			console.log('Something went wrong', err);
 		}
 	}
 }

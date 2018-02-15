@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+/**
+ * Repo Item component.
+ * Triggers `onClick` from props on click.
+*/
 class RepoListItem extends Component {
 	state = {
 		hover: false,
@@ -17,10 +21,12 @@ class RepoListItem extends Component {
 		);
 	}
 
+	// Handles on item click.
 	_handleOnClick = () => {
 		this.props.onClick(this.props.repo.id);
 	}
 
+	// Truncates the repo name to 25 characters.
 	_truncateRepoName = (repo_name) => {
 		if (repo_name.length > 25)
 			return `${repo_name.slice(0, 25)}...`;
@@ -42,6 +48,9 @@ const LayoutStyled = styled.div`
 	}
 `;
 
+/**
+ * PROPTYPES
+ */
 RepoListItem.propTypes = {
 	repo: PropTypes.object.isRequired,
 	onClick: PropTypes.func,

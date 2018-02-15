@@ -9,7 +9,7 @@ const RepoTag = ({ color, title, icon, counter }) => (
 			{icon &&
 				<Icon type={icon} />
 			}
-			{title}{counter && ' | '}
+			{title}{(counter >= 0) && ' | '}
 		</Title>
 			{counter}
 	</Tag>
