@@ -3,21 +3,41 @@ import { Input, Icon } from 'antd';
 
 class SearchBar extends Component {
 	state = {
-		search: ''
+		filter: ''
 	}
 
-	_onTypingChange = (e) => {
-		this.setState({ search: e.target.value });
+	constructor() {
+		super();
+		this.triggerFilterSearch =
+			this._debounce(this.triggerFilterSearch, 100);
+	}
+
+	_onTypingChange = async (e) => {
+		const filter = e.target.value;
+		await this.setState({ filter });
+		this.triggerFilterSearch();
+	}
+
+	triggerFilterSearch = () => {
+		this.props.onSearch(this.state.filter);
+	}
+
+	_debounce = (func, delay) => {
+		let timer;
+		return () => {
+			clearTimeout(timer);
+			timer = setTimeout(() => func.apply(this), delay);
+		}
 	}
 
 	render() {
-		const { search } = this.state;
+		const { filter } = this.state;
 
 		return (
 			<Input
         placeholder="Find a repo..."
         prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
-        value={search}
+        value={filter}
         onChange={this._onTypingChange}
         ref={node => this.userNameInput = node}
       />

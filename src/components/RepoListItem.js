@@ -18,7 +18,7 @@ class RepoListItem extends Component {
 	}
 
 	_handleOnClick = () => {
-		this.props.onClick(this.props.repo);
+		this.props.onClick(this.props.repo.id);
 	}
 
 	_truncateRepoName = (repo_name) => {

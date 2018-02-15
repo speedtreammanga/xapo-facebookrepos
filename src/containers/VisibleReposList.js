@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import RepoListItem from '../components/RepoListItem';
 import GithubProvider from '../providers/github.provider';
+import { pickARepo } from '../actions/actions';
 
 class VisibleReposList extends Component {
 	state = {
@@ -25,20 +27,22 @@ class VisibleReposList extends Component {
 		this.setState({ loading: bool });
 	}
 
-	_handleRepoSelection = (repo) => {
-		console.log('CLICKED ON', repo.name);
-	}
-
 	render() {
 		const { loading, repos } = this.state;
-
+		const visibleRepos = repos.filter((repo) =>
+			(repo.name.includes(this.props.filter.filter))
+		);
 		if (loading)
 			return <LoadingP>Loading...</LoadingP>
 
 		return (
 			<div>
-				{repos.map((repo, index) =>
-					(<RepoListItem onClick={this._handleRepoSelection} key={index} repo={repo} />)
+				{visibleRepos.map((repo, index) =>
+					(<RepoListItem
+						key={index}
+						onClick={this.props.onRepoPick}
+						repo={{id: repo.id, name: repo.name}}
+					/>)
 				)}
 			</div>
 		);
@@ -52,4 +56,21 @@ const LoadingP = styled.p`
 	padding: 0;
 `;
 
-export default VisibleReposList;
+const mapStateToProps = (state) => {
+	return {
+		filter: state.filter
+	}
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onRepoPick: (repoId) => {
+			dispatch(pickARepo(repoId));
+		}
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(VisibleReposList);

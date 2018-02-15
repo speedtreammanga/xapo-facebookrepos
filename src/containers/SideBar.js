@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 import { Layout } from 'antd';
+import { connect } from 'react-redux';
 
 import VisibleReposList from '../containers/VisibleReposList';
 import SearchBar from '../components/SearchBar';
+import { filterRepos } from '../actions/actions';
+
 const { Sider } = Layout;
 
 class SideBar extends Component {
-
-	_handleSearch = (text) => {
-		// ...
-	}
-
 	render() {
 		return (
 			<Sider width={280} style={styles.sider}>
 				<Layout style={styles.searchBar}>
-						<SearchBar onSearch={this._handleSearch}/>
+						<SearchBar onSearch={this.props.onSearch}/>
 				</Layout>
 				<Layout style={styles.reposListLayout}>
 					<VisibleReposList />
@@ -45,4 +43,15 @@ const styles = {
 	}
 }
 
-export default SideBar;
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onSearch: (filter) => {
+			dispatch(filterRepos(filter));
+		}
+	}
+}
+
+export default connect(
+	null,
+	mapDispatchToProps
+)(SideBar);

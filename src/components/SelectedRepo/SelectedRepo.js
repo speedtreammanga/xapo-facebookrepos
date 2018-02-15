@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Row, Col, Button } from 'antd';
 import PropTypes from 'prop-types';
 
+import GithubProvider from '../../providers/github.provider';
 import RepoTag from './RepoTag';
 import Contributor from './Contributor';
 
@@ -10,24 +11,20 @@ import { aRepo } from './repo.js';
 
 class repo extends Component {
 	state = {
+		repo: null,
 		contributors: [],
 		contributors_page: 1,
 		contributors_loading: false,
 	}
 
-	componentWillReceiveProps(props) {
-		// fetch contributors here...
-	}
-
-	async componentDidMount() {
-		this._loadMoreContributors();
+	async componentWillReceiveProps(props) {
+		if (props.repoId) {
+			const repo = GithubProvider.getRepoByRepoId(props.repoId);
+			this._loadMoreContributors(repo);
+		}
 	}
 
 	render() {
-		setTimeout(() => {
-			this.setState({repo: aRepo});
-		}, 1500);
-
 		const { contributors, repo } = this.state;
 
 		if (!repo)
@@ -96,14 +93,13 @@ class repo extends Component {
 		);
 	}
 
-	_loadMoreContributors = async () => {
+	_loadMoreContributors = async (repo) => {
 		if (!this.state.noContributorsLeft) {
 			await this.setState({ contributors_loading: true });
 			const contributors =
-				await (await fetch(
-					`${aRepo.contributors_url}?page=${this.state.contributors_page}`
-				)).json();
+				await GithubProvider.fetchRepoContributorsByRepoId(repo.id, this.state.contributors_page);
 			await this.setState((prev) => {
+				prev.repo = {...repo};
 				++prev.contributors_page;
 				prev.contributors.push(...contributors);
 				prev.contributors_loading = false;
